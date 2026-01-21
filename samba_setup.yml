@@ -1,0 +1,28 @@
+---
+- name: preparing system
+  hosts: rhel
+  gather_facts: no
+  tasks:
+    - name: installing samba
+      ansible.builtin.dnf:
+        name: samba
+        state: present
+    
+    - name: adding samba group
+      ansible.builtin.group:
+        gid: 5555
+        name: sambaUser
+        
+    - name: adding default samba user
+      ansible.builtin.user:
+        append: true
+        groups: sambaUser
+        name: falkor
+        state: present
+
+    - name: setting directory /srv/samba
+      ansible.builtin.file:
+        state: directory
+        path: "/srv/samba"
+        group: sambaUser
+
