@@ -46,7 +46,7 @@
         group: root
         mode: '0755'
         owner: root
-        src: files/
+        src: files/smb.conf.template
 
     - name: starting samba server
       ansible.builtin.systemd_service:
