@@ -27,4 +27,3 @@
         group: sambaUser
         mode: 0775
         setype: samba_share_t
-        state: present
