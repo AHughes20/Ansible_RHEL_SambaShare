@@ -3,33 +3,33 @@
   hosts: rhel
   gather_facts: no
   tasks:
-#    - name: installing samba
- #     ansible.builtin.dnf:
-  #      name: samba
-   #     state: present
+    - name: installing samba
+      ansible.builtin.dnf:
+        name: samba
+        state: present
     
     - name: adding samba group
       ansible.builtin.group:
         gid: 5555
         name: sambaUser
         
-    - name: adding default samba user
+    - name: adding samba admin account
       ansible.builtin.user:
         append: true
         groups: sambaUser
-        name: rex
+        name: sambaAdmin
         password: $6$TMqDx7nYtCrEYouM$lBL43M5167qbbkLxyCftNTNVwkSsb7MOdux5rotJwxXwAJ69v94WjbsAVz2.8QYXpcgN4UM71tMX6g0yFq.Zj/
         state: present
     
     - name: adding user to samba db
       ansible.builtin.command:  
-        cmd: smbpasswd -a rex
+        cmd: smbpasswd -a sambaAdmin
         stdin: |
           password
           password
 
-    - name: enabling sambauser
-      command: smbpasswd -e rex
+    - name: enabling sambaAdmin
+      command: smbpasswd -e sambaAdmin
 
     - name: setting directory /srv/samba
       ansible.builtin.file:
@@ -37,14 +37,14 @@
         path: "/srv/samba"
         owner: root
         group: sambaUser
-        mode: '0775'
+        mode: '2770'
         setype: samba_share_t
 
     - name: adding smb.conf.template
       ansible.builtin.copy:
         dest: /etc/samba/
         group: root
-        mode: '0644'
+        mode: '0755'
         owner: root
         src: files/
 
