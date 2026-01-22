@@ -16,6 +16,7 @@
     - name: adding default samba user
       ansible.builtin.user:
         append: true
+        owner: root
         groups: sambaUser
         name: falkor
         state: present
@@ -25,5 +26,5 @@
         state: directory
         path: "/srv/samba"
         group: sambaUser
-        mode: 0775
+        mode: '0775'
         setype: samba_share_t
