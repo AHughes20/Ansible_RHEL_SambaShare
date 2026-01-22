@@ -12,6 +12,7 @@
       ansible.builtin.group:
         gid: 5555
         name: sambaUser
+        state: absent
         
     - name: adding default samba user
       ansible.builtin.user:
@@ -25,6 +26,4 @@
         state: directory
         path: "/srv/samba"
         group: sambaUser
-        mode: 0775
-        setype: samba_share_t
-        state: present
+        state: absent
